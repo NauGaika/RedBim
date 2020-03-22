@@ -51,3 +51,14 @@ def get_file():
         except Exception as e:
             return str(e)
     return "Файл не найден в последней версии"
+
+@app.route("/get_redbim")
+def get_redbim():
+    """Получение файла."""
+    file = os.path.abspath(os.path.join("server", "redbim {}.rar".format(rbu.latest_version.version)))
+    print("Загрузили RedBim")
+    if file_path:
+        try:
+            return send_file(file, attachment_filename=os.path.split(file)[1])
+        except Exception as e:
+            return str(e)
