@@ -13,13 +13,16 @@ rbu = RedBimUpdater()
 #     return "Hello, World!"
 @app.route('/latest_version')
 def latest_version():
+    print("Получаем версию")
     return rbu.latest_version.version
 
 @app.route('/file_list')
 def file_list():
+    print("Получаем список файлов")
     try:
         return send_file(rbu.latest_version.get_file_list(), attachment_filename=rbu.latest_version.version + ".json")
     except Exception as e:
+        pring(e)
         return str(e)
 
 @app.route("/get_file", methods=["GET"])
