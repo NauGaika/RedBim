@@ -55,9 +55,9 @@ def get_file():
 @app.route("/get_redbim")
 def get_redbim():
     """Получение файла."""
-    file = os.path.abspath(os.path.join("server", "redbim {}.rar".format(rbu.latest_version.version)))
+    file = os.path.abspath(os.path.join("server", "static", "redbim.rar"))
     print("Загрузили RedBim")
     try:
-        return send_file(file, attachment_filename=os.path.split(file)[1])
+        return send_file(file, attachment_filename=os.path.split("redbim {}.rar".format(rbu.latest_version.version)))
     except Exception as e:
         return str(e)
