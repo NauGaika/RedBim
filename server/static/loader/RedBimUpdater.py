@@ -54,10 +54,8 @@ class RedBimUpdater:
     def compare_file_lists(self, server_dict, client_dict):
         for i in server_dict.keys():
             new_file = i not in client_dict.keys()
-            print(server_dict[i])
             old_file = None
             if not new_file:
-                print(client_dict[i])
                 old_file = int(client_dict[i]) < int(server_dict[i])
             if new_file or old_file:
                 try:
