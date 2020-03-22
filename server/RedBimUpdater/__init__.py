@@ -58,7 +58,7 @@ class RedBim_Version:
             if os.path.isdir(curpath):
                 self.find_all_files(curpath, except_dir=except_dir, except_file=except_file, result=result)
             else:
-                result.update({curpath: os.stat(curpath).st_mtime})
+                result.update({curpath: os.path.getmtime(curpath) })
         if return_res:
             result = {key[gen_path_len:]: i for key, i in result.items()}
             return result
