@@ -12,6 +12,21 @@ rbu = RedBimUpdater()
 def index():
     return "Здесь будет сайт RedBim"
 
+@app.route('/say_hi', methods=["GET"])
+def say_hi():
+    user = request.args.get('user')
+    print(user)
+
+@app.route('/say_hi', methods=["GET"])
+def say_hi():
+    user = request.args.get('user')
+    print(user)
+
+@app.route('/plagin', methods=["GET"])
+def get_plagin():
+    plagin = request.args.get('plagin')
+    username = request.args.get('username')
+    print(plagin, username)
 
 @app.route('/latest_version')
 def latest_version():

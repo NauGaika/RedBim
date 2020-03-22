@@ -11,10 +11,17 @@ class RedBimUpdater:
         self.SERVER_GET_VERSION = r"/latest_version"
         self.SERVER_GET_FILE_LIST = r"/file_list"
         self.SERVER_GET_REDBIM_FILE = r"/get_file"
+        self.SERVER_SAY_HI = r"/say_hi"
         self.VERSION_FILE = "config.conf"
+        self.say_hi(__revit__.Application.Username)
         if self.system_version is None or (self.server_version is not None and self.system_version != self.server_version):
             self.update_RedBim()
         print("Запускаем RedBim")
+
+    def say_hi(self, username):
+        username = urllib.quote(username.encode('utf8'), ':/')
+        url = self.SERVER_URL + self.SERVER_SAY_HI + "?user=" + username
+        response = urllib.urlopen(url)
 
     @property
     def config(self):
