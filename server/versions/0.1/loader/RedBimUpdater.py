@@ -49,23 +49,27 @@ class RedBimUpdater:
 
     def update_RedBim(self):
         all_files = self.get_all_files_without_exept(self.SYSTEM_PATH)
-        self.compare_file_lists(self.server_file_list, all_files)
+        if self.server_file_list:
+            self.compare_file_lists(self.server_file_list, all_files)
 
     def compare_file_lists(self, server_dict, client_dict):
-        with open(os.path.join(self.SYSTEM_PATH, "update_log.txt"), "w") as log:
-            log.write("Получили файлы с сервера \n\r")
+        with open(os.path.join(self.SYSTEM_PATH, "update_log.txt"), "wb") as log:
+            log.write("Получили файлы с сервера".encode("utf-8"))
             for i in server_dict.keys():
-                log.write("Проверяем файл с сервера {}\n\r".format(i))
+                log.write("Проверяем файл с сервера {}".format(i).encode("utf-8"))
                 new_file = i not in client_dict.keys()
                 if new_file:
-                    log.write("Определен как новый\n\r")
+                    log.write("Определен как новый".encode("utf-8"))
                 else:
-                    log.write("Такой уже есть\n\r")
+                    log.write("Такой уже есть".encode("utf-8"))
                 old_file = None
                 if not new_file:
                     print(client_dict[i])
                     old_file = int(client_dict[i]) < int(server_dict[i])
-                    log.write("Сверяем время серверной время {} Клиентское время {}\n\r".fromat(int(server_dict[i]), int(client_dict[i])))
+                    to_write = "Сверяем время серверной время {} Клиентское время {}".format(int(server_dict[i]), int(client_dict[i]))
+                    log.write(to_write.encode("utf-8"))
+                    if old_file:
+                        log.write("Нужно обновить".encode("utf-8"))
                 if new_file or old_file:
                     try:
                         file_path = os.path.join(self.SYSTEM_PATH, i)
@@ -86,6 +90,7 @@ class RedBimUpdater:
 
     def server_get_file(self, file):
         try:
+            file = file.replace("\\", "/")
             file = urllib.quote(file.encode('utf8'), ':/')
             url = self.SERVER_URL + self.SERVER_GET_REDBIM_FILE + "?file=" + file
             response = urllib.urlopen(url)
@@ -102,6 +107,7 @@ class RedBimUpdater:
                 self._server_file_list = response.read()
                 response.close()
                 self._server_file_list = json.loads(self._server_file_list.decode("utf-8"))
+                self._server_file_list = {key.replace("/", "\\"): i for key, i in self._server_file_list.items()}
             except:
                 self._server_file_list = None
         return self._server_file_list
