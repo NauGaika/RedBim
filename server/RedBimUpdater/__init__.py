@@ -4,7 +4,7 @@ import re
 import json
 
 class RedBim_Version:
-    VERSION_PATH = r"server\versions"
+    VERSION_PATH = os.path.abspath(r".\server\versions")
     FILE_LIST_NAME = r"files.json"
     LATEST_VERSION = None
 
@@ -13,6 +13,7 @@ class RedBim_Version:
 
     @classmethod
     def get_latest_version(cls):
+        print(cls.VERSION_PATH)
         files = [i for i in os.listdir(cls.VERSION_PATH) if os.path.isdir(os.path.join(cls.VERSION_PATH, i))]
         files.sort(key=lambda x: os.stat(os.path.join(cls.VERSION_PATH, x)).st_mtime, reverse=True)
         if cls.LATEST_VERSION is None or cls.LATEST_VERSION.version != files[0]:
