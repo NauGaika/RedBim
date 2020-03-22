@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+﻿﻿# -*- coding: utf-8 -*-
 import urllib
 import json
 import os
@@ -52,29 +52,37 @@ class RedBimUpdater:
         self.compare_file_lists(self.server_file_list, all_files)
 
     def compare_file_lists(self, server_dict, client_dict):
-        for i in server_dict.keys():
-            new_file = i not in client_dict.keys()
-            print(server_dict[i])
-            old_file = None
-            if not new_file:
-                print(client_dict[i])
-                old_file = int(client_dict[i]) < int(server_dict[i])
-            if new_file or old_file:
-                try:
-                    file_path = os.path.join(self.SYSTEM_PATH, i)
-                    dir_path = os.path.split(file_path)[0]
-                    if not os.path.exists(dir_path):
-                        os.makedirs(dir_path)
-                    file = self.server_get_file(i)
-                    with open(file_path, "wb") as f:
-                        f.write(file)
-                        f.close()
-                    if new_file:
-                        print("Создан новый файл " + file_path)
-                    elif old_file:
-                        print("Обновлен файл " + file_path)
-                except:
-                    print("Ошибка создания/обновления файла " + file_path)
+        with open(os.path.join(self.SYSTEM_PATH, "update_log.txt"), "w") as log:
+            log.write("Получили файлы с сервера \n\r")
+            for i in server_dict.keys():
+                log.write("Проверяем файл с сервера {}\n\r".format(i))
+                new_file = i not in client_dict.keys()
+                if new_file:
+                    log.write("Определен как новый\n\r")
+                else:
+                    log.write("Такой уже есть\n\r")
+                old_file = None
+                if not new_file:
+                    print(client_dict[i])
+                    old_file = int(client_dict[i]) < int(server_dict[i])
+                    log.write("Сверяем время серверной время {} Клиентское время {}\n\r".fromat(int(server_dict[i]), int(client_dict[i])))
+                if new_file or old_file:
+                    try:
+                        file_path = os.path.join(self.SYSTEM_PATH, i)
+                        dir_path = os.path.split(file_path)[0]
+                        if not os.path.exists(dir_path):
+                            os.makedirs(dir_path)
+                        file = self.server_get_file(i)
+                        with open(file_path, "wb") as f:
+                            f.write(file)
+                            f.close()
+                        if new_file:
+                            print("Создан новый файл " + file_path)
+                        elif old_file:
+                            print("Обновлен файл " + file_path)
+                    except:
+                        print("Ошибка создания/обновления файла " + file_path)
+            log.close()
 
     def server_get_file(self, file):
         try:
