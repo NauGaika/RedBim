@@ -45,9 +45,6 @@ class RB_Pushbutton:
 
     def create_PPBD(self):
         """Создает экземпляр PPBD."""
-        # echo("Создаем экземпляр PPBD " + self.name)
-        # echo("Путь " + self.script_path)
-        
         return PyPushButtonData(
                 self.name + str(self.PB_count),
                 self.name,

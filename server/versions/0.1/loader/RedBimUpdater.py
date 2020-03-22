@@ -42,7 +42,8 @@ class RedBimUpdater:
 
     def update_RedBim(self):
         all_files = self.get_all_files_without_exept(self.SYSTEM_PATH)
-        self.compare_file_lists(self.server_file_list, all_files)
+        if self.server_file_list:
+            self.compare_file_lists(self.server_file_list, all_files)
 
     def compare_file_lists(self, server_dict, client_dict):
         for i in server_dict.keys():
