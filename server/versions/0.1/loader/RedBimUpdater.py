@@ -50,7 +50,6 @@ class RedBimUpdater:
             new_file = i not in client_dict.keys()
             old_file = None
             if not new_file:
-                print(client_dict[i])
                 old_file = int(client_dict[i]) < int(server_dict[i])
             if new_file or old_file:
                 try:
@@ -59,13 +58,14 @@ class RedBimUpdater:
                     if not os.path.exists(dir_path):
                         os.makedirs(dir_path)
                     file = self.server_get_file(i)
-                    with open(file_path, "wb") as f:
-                        f.write(file)
-                        f.close()
-                    if new_file:
-                        print("Создан новый файл " + file_path)
-                    elif old_file:
-                        print("Обновлен файл " + file_path)
+                    if file != "Файл не найден в последней версии":
+                        with open(file_path, "wb") as f:
+                            f.write(file)
+                            f.close()
+                        if new_file:
+                            print("Создан новый файл " + file_path)
+                        elif old_file:
+                            print("Обновлен файл " + file_path)
                 except:
                     print("Ошибка создания/обновления файла " + file_path)
 

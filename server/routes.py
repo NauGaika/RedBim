@@ -7,10 +7,12 @@ from .RedBimUpdater import RedBimUpdater
 
 rbu = RedBimUpdater()
 
-# @app.route('/')
-# @app.route('/index')
-# def index():
-#     return "Hello, World!"
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Здесь будет сайт RedBim"
+
+
 @app.route('/latest_version')
 def latest_version():
     print("Получаем версию")
@@ -27,10 +29,10 @@ def file_list():
 
 @app.route("/get_file", methods=["GET"])
 def get_file():
-    """Register user."""
+    """Получение файла."""
     file_name = request.args.get('file')
-    print(file_name)
     file_path = rbu.latest_version.get_file(file_name)
+    print(file_path)
     if file_path:
         try:
             return send_file(file_path, attachment_filename=os.path.split(file_path)[1])
