@@ -38,6 +38,8 @@ class RB_Pushbutton:
             # echo("Нет")
             self.button = self.parent.sys_panel.AddItem(self.create_PPBD())
         else:
+            echo(self.name)
+            echo(self.image)
             pass
             # echo("Да")
 
@@ -45,7 +47,7 @@ class RB_Pushbutton:
         """Создает экземпляр PPBD."""
         # echo("Создаем экземпляр PPBD " + self.name)
         # echo("Путь " + self.script_path)
-        echo(self.name)
+        
         return PyPushButtonData(
                 self.name + str(self.PB_count),
                 self.name,
@@ -71,7 +73,6 @@ class RB_Pushbutton:
 
     def add_image(self):
         """Добавляем картинку."""
-        echo(self.image)
         self.img_uri = Uri(self.image)
         self.button.LargeImage = BitmapImage()
         self.button.LargeImage.BeginInit()
