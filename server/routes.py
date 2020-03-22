@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 import os
 
-from flask import send_file, request, send_from_directory
+from flask import send_file, request
 from server import app
 from .RedBimUpdater import RedBimUpdater
 
@@ -52,12 +52,12 @@ def get_file():
             return str(e)
     return "Файл не найден в последней версии"
 
-@app.route("/downolad/redbim.rar")
+@app.route("/download/redbim.rar")
 def get_redbim():
     """Получение файла."""
     file = os.path.abspath(os.path.join("server", "static", "redbim.rar"))
     print("Загрузили RedBim")
     try:
-        return send_from_directory(file, os.path.split("redbim {}.rar".format(rbu.latest_version.version)))
+        return send_file(file, mimetype="application/vnd.rar")
     except Exception as e:
         return str(e)
