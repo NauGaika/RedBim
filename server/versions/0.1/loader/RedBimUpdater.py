@@ -7,7 +7,7 @@ class RedBimUpdater:
     "Выполняет обновление плагина"
     def __init__(self, system_path):
         self.SYSTEM_PATH = system_path
-        self.SERVER_URL = r"http://127.0.0.1:5000"
+        self.SERVER_URL = r"http://redbim.ru"
         self.SERVER_GET_VERSION = r"/latest_version"
         self.SERVER_GET_FILE_LIST = r"/file_list"
         self.SERVER_GET_REDBIM_FILE = r"/get_file"
