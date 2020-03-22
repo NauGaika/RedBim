@@ -42,13 +42,11 @@ class RedBimUpdater:
 
     def update_RedBim(self):
         all_files = self.get_all_files_without_exept(self.SYSTEM_PATH)
-        if self.server_file_list:
-            self.compare_file_lists(self.server_file_list, all_files)
+        self.compare_file_lists(self.server_file_list, all_files)
 
     def compare_file_lists(self, server_dict, client_dict):
         for i in server_dict.keys():
             new_file = i not in client_dict.keys()
-            print(server_dict[i])
             old_file = None
             if not new_file:
                 print(client_dict[i])
@@ -88,6 +86,7 @@ class RedBimUpdater:
                 self._server_file_list = response.read()
                 response.close()
                 self._server_file_list = json.loads(self._server_file_list.decode("utf-8"))
+                self._server_file_list = {key.replace("/", "\\"): i for key, i in self._server_file_list.items()}
             except:
                 self._server_file_list = None
         return self._server_file_list
