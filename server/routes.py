@@ -16,12 +16,14 @@ def index():
 def say_hi():
     user = request.args.get('user')
     print(user)
+    return "ok"
 
 @app.route('/plagin', methods=["GET"])
 def get_plagin():
     plagin = request.args.get('plagin')
     username = request.args.get('username')
     print(plagin, username)
+    return "ok"
 
 @app.route('/latest_version')
 def latest_version():
