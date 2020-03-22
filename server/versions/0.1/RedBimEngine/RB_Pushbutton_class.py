@@ -25,7 +25,10 @@ class RB_Pushbutton:
         if panel:
             self.__class__.PB_count = self.__class__.PB_count + 1
             self.get_button_or_create()
-            self.add_image()
+            try:
+                self.add_image()
+            except:
+                pass
 
     def get_button_or_create(self):
         """Существует ли кнопка. Если да - вернем ее."""
@@ -68,6 +71,7 @@ class RB_Pushbutton:
 
     def add_image(self):
         """Добавляем картинку."""
+        echo(self.image)
         self.img_uri = Uri(self.image)
         self.button.LargeImage = BitmapImage()
         self.button.LargeImage.BeginInit()
