@@ -4,7 +4,7 @@ import re
 import json
 
 class RedBim_Version:
-    VERSION_PATH = os.path.abspath(r".\server\versions")
+    VERSION_PATH = os.path.abspath(os.path.join("server", "versions"))
     FILE_LIST_NAME = r"files.json"
     LATEST_VERSION = None
 
