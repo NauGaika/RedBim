@@ -11,10 +11,17 @@ class RedBimUpdater:
         self.SERVER_GET_VERSION = r"/latest_version"
         self.SERVER_GET_FILE_LIST = r"/file_list"
         self.SERVER_GET_REDBIM_FILE = r"/get_file"
+        self.SERVER_SAY_HI = r"/say_hi"
         self.VERSION_FILE = "config.conf"
+        self.say_hi(__revit__.Application.Username)
         if self.system_version is None or (self.server_version is not None and self.system_version != self.server_version):
             self.update_RedBim()
         print("Запускаем RedBim")
+
+    def say_hi(self, username):
+        username = urllib.quote(username.encode('utf8'), ':/')
+        url = self.SERVER_URL + self.SERVER_SAY_HI + "?user=" + username
+        response = urllib.urlopen(url)
 
     @property
     def config(self):
@@ -42,14 +49,15 @@ class RedBimUpdater:
 
     def update_RedBim(self):
         all_files = self.get_all_files_without_exept(self.SYSTEM_PATH)
-        if self.server_file_list:
-            self.compare_file_lists(self.server_file_list, all_files)
+        self.compare_file_lists(self.server_file_list, all_files)
 
     def compare_file_lists(self, server_dict, client_dict):
         for i in server_dict.keys():
             new_file = i not in client_dict.keys()
+            print(server_dict[i])
             old_file = None
             if not new_file:
+                print(client_dict[i])
                 old_file = int(client_dict[i]) < int(server_dict[i])
             if new_file or old_file:
                 try:
@@ -58,14 +66,13 @@ class RedBimUpdater:
                     if not os.path.exists(dir_path):
                         os.makedirs(dir_path)
                     file = self.server_get_file(i)
-                    if file != "Файл не найден в последней версии":
-                        with open(file_path, "wb") as f:
-                            f.write(file)
-                            f.close()
-                        if new_file:
-                            print("Создан новый файл " + file_path)
-                        elif old_file:
-                            print("Обновлен файл " + file_path)
+                    with open(file_path, "wb") as f:
+                        f.write(file)
+                        f.close()
+                    if new_file:
+                        print("Создан новый файл " + file_path)
+                    elif old_file:
+                        print("Обновлен файл " + file_path)
                 except:
                     print("Ошибка создания/обновления файла " + file_path)
 
@@ -87,7 +94,6 @@ class RedBimUpdater:
                 self._server_file_list = response.read()
                 response.close()
                 self._server_file_list = json.loads(self._server_file_list.decode("utf-8"))
-                self._server_file_list = {key.replace("/", "\\"): i for key, i in self._server_file_list.items()}
             except:
                 self._server_file_list = None
         return self._server_file_list

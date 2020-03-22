@@ -27,7 +27,9 @@ def say_plagin(plagin):
     username = __revit__.Application.Username
     username = urllib.quote(username.encode('utf8'), ':/')
     url = "http://redbim.ru/plagin?plagin=" + plagin + "&username=" + username
+    echo(url)
     response = urllib.urlopen(url)
+    echo(response)
 
 __file__ = FILE
 file_path = os.path.dirname(FILE)
