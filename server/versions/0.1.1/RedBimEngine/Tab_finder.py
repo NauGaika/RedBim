@@ -4,7 +4,7 @@
 import os
 import re
 
-from constants import DIR_SCRIPTS  # Подгружаем общие переменные
+from constants import DIR_SCRIPTS, REVIT_VERSION  # Подгружаем общие переменные
 from common_scripts import echo, message
 from RB_Tab_class import RB_Tab  # Подгружаем класс с вкладками
 
@@ -121,7 +121,7 @@ class RedBimSetting(Form):
     def active_button(self, sender, e):
         res = []
         self.checked_elements(self.tree, obj=res)
-        config_path = os.path.join(os.environ["PROGRAMDATA"], r"Autodesk\Revit\Addins\2019\RedBim\config.json")
+        config_path = os.path.join(os.environ["PROGRAMDATA"], "Autodesk", "Revit", "Addins", REVIT_VERSION, "RedBim", "config.json")
         with open(config_path, "w") as f:
             json.dump(res, f)
             f.close()
@@ -149,7 +149,7 @@ class RedBimSetting(Form):
                     panel["node"].Nodes.Add(pb["node"])
 
 def get_all_tabs():
-    config_path = os.path.join(os.environ["PROGRAMDATA"], r"Autodesk\Revit\Addins\2019\RedBim\config.json")
+    config_path = os.path.join(os.environ["PROGRAMDATA"], "Autodesk", "Revit", "Addins", REVIT_VERSION, "RedBim", "config.json")
     with open(config_path, "r") as f:
         data = json.load(f)
         f.close()
@@ -175,7 +175,7 @@ def get_all_tabs():
     return all_tab
 
 def find_all_tab():
-    config_path = os.path.join(os.environ["PROGRAMDATA"], r"Autodesk\Revit\Addins\2019\RedBim\config.json")
+    config_path = os.path.join(os.environ["PROGRAMDATA"], "Autodesk", "Revit", "Addins", REVIT_VERSION, "RedBim", "config.json")
     if not os.path.exists(config_path):
         form = RedBimSetting()
         form.Show()
