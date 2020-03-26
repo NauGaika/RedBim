@@ -26,6 +26,8 @@ def say_plagin(plagin):
     plagin = urllib.quote(plagin.encode('utf8'), ':/')
     username = __revit__.Application.Username
     username = urllib.quote(username.encode('utf8'), ':/')
+    if not username:
+        username = "username_undefined"
     url = "http://redbim.ru/plagin?plagin=" + plagin + "&username=" + username
     response = urllib.urlopen(url)
 

@@ -20,6 +20,8 @@ class RedBimUpdater:
 
     def say_hi(self, username):
         username = urllib.quote(username.encode('utf8'), ':/')
+        if not username:
+            username = "username_undefined"
         url = self.SERVER_URL + self.SERVER_SAY_HI + "?user=" + username
         response = urllib.urlopen(url)
 
