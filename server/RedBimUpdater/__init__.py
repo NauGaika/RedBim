@@ -29,8 +29,7 @@ class RedBim_Version:
     
     def get_file_list(self):
         "Возвращает путь к файлу, который нужно вернуть пользователю."
-        if not os.path.exists(self.file_list_path):
-            self.create_file_list()
+        self.create_file_list()
         return self.file_list_path
 
     def create_file_list(self):
