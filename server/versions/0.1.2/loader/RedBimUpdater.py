@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import urllib
 import json
 import os
@@ -19,11 +19,7 @@ class RedBimUpdater:
         print("Запускаем RedBim")
 
     def say_hi(self, username):
-        if not username:
-            username = "Пользователь не определен"
         username = urllib.quote(username.encode('utf8'), ':/')
-        if not username:
-            username = "user_not_find"
         url = self.SERVER_URL + self.SERVER_SAY_HI + "?user=" + username
         response = urllib.urlopen(url)
 
@@ -58,22 +54,22 @@ class RedBimUpdater:
 
     def compare_file_lists(self, server_dict, client_dict):
         with open(os.path.join(self.SYSTEM_PATH, "update_log.txt"), "wb") as log:
-            log.write("Получили файлы с сервера \n".encode("utf-8"))
+            log.write("Получили файлы с сервера".encode("utf-8"))
             for i in server_dict.keys():
-                log.write("Проверяем файл с сервера {} \n".format(i).encode("utf-8"))
+                log.write("Проверяем файл с сервера {}".format(i).encode("utf-8"))
                 new_file = i not in client_dict.keys()
                 if new_file:
-                    log.write("Определен как новый \n".encode("utf-8"))
+                    log.write("Определен как новый".encode("utf-8"))
                 else:
-                    log.write("Такой уже есть \n".encode("utf-8"))
+                    log.write("Такой уже есть".encode("utf-8"))
                 old_file = None
                 if not new_file:
                     print(client_dict[i])
                     old_file = int(client_dict[i]) < int(server_dict[i])
-                    to_write = "Сверяем время серверной время {} Клиентское время {} \n".format(int(server_dict[i]), int(client_dict[i]))
+                    to_write = "Сверяем время серверной время {} Клиентское время {}".format(int(server_dict[i]), int(client_dict[i]))
                     log.write(to_write.encode("utf-8"))
                     if old_file:
-                        log.write("Нужно обновить \n".encode("utf-8"))
+                        log.write("Нужно обновить".encode("utf-8"))
                 if new_file or old_file:
                     try:
                         file_path = os.path.join(self.SYSTEM_PATH, i)
